@@ -6,9 +6,10 @@
     "lib": ["ES2020"],                             // Bibliotecas de tipos incluídas
     "moduleResolution": "bundler",                    // Estratégia de resolução de módulos (Node.js)
     
+    
     // Diretórios
     "outDir": "./dist",                            // Pasta de saída dos arquivos compilados
-    "rootDir": "./src",                            // Pasta raiz dos arquivos fonte
+    "rootDir": ".",                                // Pasta raiz dos arquivos fonte
     
     // Strict Type-Checking Options (TypeScript 5.6)
     "strict": true,                                // Ativa todas as verificações estritas
@@ -49,7 +50,7 @@
     // Type Acquisition
     "types": ["node"]                              // Pacotes de tipos a incluir (@types/node)
   },
-  "include": ["src/**/*"],                         // Arquivos a serem incluídos na compilação
+  "include": ["src/**/*", "prisma7.config.ts"],                         // Arquivos a serem incluídos na compilação
   "exclude": ["node_modules", "**/*.spec.ts", "**/*.test.ts"]  // Arquivos/pastas excluídos
 }
 
