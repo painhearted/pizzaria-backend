@@ -56,17 +56,38 @@ class CreateProductService {
 
             });
 
-
-            console.log(result)
-
-
+            
+            bannerURL = result.secure_url
         } catch (error) {
         
             throw new Error("Erro ao fazer upload da imagem!")
         }
-        // Salvar a URL da imagem e os dados no banco como um novo produto.
+        // Salvando a URL da imagem e os dados no banco como um novo produto.
 
-        return "PRODUTO CRIADO!"
+        const product = await prismaClient.product.create({
+
+            data: {
+                
+                name: name,
+                price: Number(price),
+                description: description,
+                banner: bannerURL,
+                category_id: category_id
+            },
+            select: {
+
+                id: true,
+                name: true,
+                price: true,
+                description: true,
+                category_id: true,
+                banner: true,
+                createdAt: true,
+
+            }
+        })
+        
+        return product;
     }
 }
 

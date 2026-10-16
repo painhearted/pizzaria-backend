@@ -6,12 +6,16 @@ import { ListCategoryController } from './controllers/category/ListCategoryContr
 import { AuthUserController } from './controllers/user/AuthUserController';
 import { CreateUserController } from './controllers/user/CreateUserController';
 import { DetailUserController } from './controllers/user/DetailUserController';
+import { CreateProductController } from './controllers/products/CreateProductController';
+import { ListProductController } from './controllers/products/ListProductController';
 import { isAdmin } from './middlewares/isAdmin';
 import { isAuthenticated } from './middlewares/isAuthenticated';
 import { createUserSchema, authUserSchema } from './schemas/userSchema';
 import { validateSchema } from './middlewares/validateSchema';
 import { createCategorySchema } from './schemas/categorySchema';
-import { CreateProductController } from './controllers/products/CreateProductController';
+import { createProductSchema } from './schemas/productSchema';
+import { listProductSchema } from './schemas/listProductSchema';
+import { DeleteProductController } from './controllers/products/DeleteProductController';
 
 const router = Router();
 const upload = multer(uploadConfig);
@@ -26,7 +30,11 @@ router.get("/category", isAuthenticated, new ListCategoryController().handle);
 router.post("/category", isAuthenticated, isAdmin, validateSchema(createCategorySchema), new CreateCategoryController().handle);
 
 //Rota products
-router.post("/product", isAuthenticated, isAdmin, upload.single('file'), new CreateProductController().handle);
+router.get("/products", isAuthenticated, validateSchema(listProductSchema), new ListProductController().handle);
+router.post("/product", isAuthenticated, isAdmin, upload.single('file'), validateSchema(createProductSchema), new CreateProductController().handle);
 
+
+//Rota deletar
+router.delete("/product", isAuthenticated, isAdmin, new DeleteProductController().handle);
 
 export { router };
