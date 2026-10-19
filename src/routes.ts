@@ -19,9 +19,14 @@ import { listProductSchema } from './schemas/listProductSchema';
 import { listCategoryProductsSchema } from './schemas/listCategoryProductsSchema';
 import { DeleteProductController } from './controllers/products/DeleteProductController';
 import { CreateOrderController } from './controllers/order/CreateOrderController';
-import { addItemSchema, createOrderSchema } from './schemas/orderSchema';
+import { addItemSchema, createOrderSchema, deleteOrderSchema, detailOrderSchema, finishOrderSchema, removeItemSchema, sendOrderSchema } from './schemas/orderSchema';
 import { ListOrdersController } from './controllers/order/ListOrdersController';
 import { AddItemController } from './controllers/order/AddItemController';
+import { RemoveItemController } from './controllers/order/RemoveItemController';
+import { DetailOrderController } from './controllers/order/DetailOrderController';
+import { SendOrderController } from './controllers/order/SendOrderController';
+import { FinishOrderController } from './controllers/order/FinishOrderController';
+import { DeleteOrderController } from './controllers/order/DeleteOrderController';
 
 const router = Router();
 const upload = multer(uploadConfig);
@@ -48,6 +53,25 @@ router.delete("/product", isAuthenticated, isAdmin, new DeleteProductController(
 router.post("/order", isAuthenticated, validateSchema(createOrderSchema), new CreateOrderController().handle);
 router.get("/orders", isAuthenticated, new ListOrdersController().handle);
 
+
+//Rota detalhes da order
+router.get("/order/detail", isAuthenticated, validateSchema(detailOrderSchema), new DetailOrderController().handle);
+
 //Rota adicionar item
 router.post("/order/add", isAuthenticated, validateSchema(addItemSchema), new AddItemController().handle);
+
+
+//Rota remover item da order
+router.delete("/order/remove", isAuthenticated, validateSchema(removeItemSchema), new RemoveItemController().handle);
+
+
+//Rota atualizar order
+router.put("/order/send", isAuthenticated, validateSchema(sendOrderSchema), new SendOrderController().handle );
+
+//Rota finalizar pedido
+router.put("/order/finish", isAuthenticated, validateSchema(finishOrderSchema), new FinishOrderController().handle);
+
+//Rota deletar pedido
+router.delete("/order", isAuthenticated, validateSchema(deleteOrderSchema), new DeleteOrderController().handle);
+
 export { router };
